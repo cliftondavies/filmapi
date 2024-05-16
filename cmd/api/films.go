@@ -95,9 +95,9 @@ func (app *application) updateFilmHandler(w http.ResponseWriter, r *http.Request
 	}
 
 	var input struct {
-		Title string `json:"title"`
-		Year int32 `json:"year"`
-		Runtime data.Runtime `json:"runtime"`
+		Title *string `json:"title"`
+		Year *int32 `json:"year"`
+		Runtime *data.Runtime `json:"runtime"`
 		Genres []string `json:"genres"`
 	}
 
@@ -107,10 +107,21 @@ func (app *application) updateFilmHandler(w http.ResponseWriter, r *http.Request
 		return
 	}
 
-	film.Title = input.Title
-	film.Year = input.Year
-	film.Runtime = input.Runtime
-	film.Genres = input.Genres
+	if input.Title != nil {
+		film.Title = *input.Title
+	}
+
+	if input.Year != nil {
+		film.Year = *input.Year
+	}
+
+	if input.Runtime != nil {
+		film.Runtime = *input.Runtime
+	}
+
+	if input.Genres != nil {
+		film.Genres = input.Genres
+	}
 
 	v := validator.New()
 
