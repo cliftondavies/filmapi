@@ -165,7 +165,7 @@ func (app *application) deleteFilmHandler(w http.ResponseWriter, r *http.Request
 		return
 	}
 
-	err = app.writeJson(w, http.StatusOK, envelope{"message": "movie successfully deleted"}, nil)
+	err = app.writeJson(w, http.StatusOK, envelope{"message": "film successfully deleted"}, nil)
 	if err != nil {
 		app.serverErrorResponse(w, r, err)
 	}
