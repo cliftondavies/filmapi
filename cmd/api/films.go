@@ -11,10 +11,10 @@ import (
 
 func (app *application) createFilmHandler(w http.ResponseWriter, r *http.Request) {
 	var input struct {
-		Title string `json:"title"`
-		Year int32 `json:"year"`
+		Title   string       `json:"title"`
+		Year    int32        `json:"year"`
 		Runtime data.Runtime `json:"runtime"`
-		Genres []string `json:"genres"`
+		Genres  []string     `json:"genres"`
 	}
 
 	err := app.readJSON(w, r, &input)
@@ -24,16 +24,16 @@ func (app *application) createFilmHandler(w http.ResponseWriter, r *http.Request
 	}
 
 	film := &data.Film{
-		Title: input.Title,
-		Year: input.Year,
+		Title:   input.Title,
+		Year:    input.Year,
 		Runtime: input.Runtime,
-		Genres: input.Genres,
+		Genres:  input.Genres,
 	}
 
 	v := validator.New()
 
 	if data.ValidateFilm(v, film); !v.Valid() {
-		app.failedValidationResponse(w, r , v.Errors)
+		app.failedValidationResponse(w, r, v.Errors)
 		return
 	}
 
@@ -46,7 +46,7 @@ func (app *application) createFilmHandler(w http.ResponseWriter, r *http.Request
 	headers := make(http.Header)
 	headers.Set("Location", fmt.Sprintf("/v1/films/%d", film.ID))
 
-	err = app.writeJson(w, http.StatusCreated, envelope{"film": film}, headers)
+	err = app.writeJSON(w, http.StatusCreated, envelope{"film": film}, headers)
 	if err != nil {
 		app.serverErrorResponse(w, r, err)
 	}
@@ -70,7 +70,7 @@ func (app *application) showFilmHandler(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 
-	err = app.writeJson(w, http.StatusOK, envelope{"film": film}, nil)
+	err = app.writeJSON(w, http.StatusOK, envelope{"film": film}, nil)
 	if err != nil {
 		app.serverErrorResponse(w, r, err)
 	}
@@ -95,10 +95,10 @@ func (app *application) updateFilmHandler(w http.ResponseWriter, r *http.Request
 	}
 
 	var input struct {
-		Title *string `json:"title"`
-		Year *int32 `json:"year"`
+		Title   *string       `json:"title"`
+		Year    *int32        `json:"year"`
 		Runtime *data.Runtime `json:"runtime"`
-		Genres []string `json:"genres"`
+		Genres  []string      `json:"genres"`
 	}
 
 	err = app.readJSON(w, r, &input)
@@ -141,7 +141,7 @@ func (app *application) updateFilmHandler(w http.ResponseWriter, r *http.Request
 		return
 	}
 
-	err = app.writeJson(w, http.StatusOK, envelope{"film": film}, nil)
+	err = app.writeJSON(w, http.StatusOK, envelope{"film": film}, nil)
 	if err != nil {
 		app.serverErrorResponse(w, r, err)
 	}
@@ -165,7 +165,7 @@ func (app *application) deleteFilmHandler(w http.ResponseWriter, r *http.Request
 		return
 	}
 
-	err = app.writeJson(w, http.StatusOK, envelope{"message": "film successfully deleted"}, nil)
+	err = app.writeJSON(w, http.StatusOK, envelope{"message": "film successfully deleted"}, nil)
 	if err != nil {
 		app.serverErrorResponse(w, r, err)
 	}
@@ -173,7 +173,7 @@ func (app *application) deleteFilmHandler(w http.ResponseWriter, r *http.Request
 
 func (app *application) listFilmsHandler(w http.ResponseWriter, r *http.Request) {
 	var input struct {
-		Title string
+		Title  string
 		Genres []string
 		data.Filters
 	}
@@ -200,7 +200,7 @@ func (app *application) listFilmsHandler(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	err = app.writeJson(w, http.StatusOK, envelope{"films": films, "metadata": metadata}, nil)
+	err = app.writeJSON(w, http.StatusOK, envelope{"films": films, "metadata": metadata}, nil)
 	if err != nil {
 		app.serverErrorResponse(w, r, err)
 	}

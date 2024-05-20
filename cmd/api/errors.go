@@ -8,13 +8,13 @@ import (
 func (app *application) logError(r *http.Request, err error) {
 	app.logger.PrintError(err, map[string]string{
 		"request_method": r.Method,
-		"request_url": r.URL.String(),
+		"request_url":    r.URL.String(),
 	})
 }
 
 func (app *application) errorResponse(w http.ResponseWriter, r *http.Request, status int, message any) {
 	env := envelope{"error": message}
-	err := app.writeJson(w, status, env, nil)
+	err := app.writeJSON(w, status, env, nil)
 	if err != nil {
 		app.logError(r, err)
 		w.WriteHeader(500)
@@ -33,7 +33,7 @@ func (app *application) notFoundResponse(w http.ResponseWriter, r *http.Request)
 }
 
 func (app *application) methodNotAllowedResponse(w http.ResponseWriter, r *http.Request) {
-	message := fmt.Sprintf("the %s method is not supported for this resource",  r.Method)
+	message := fmt.Sprintf("the %s method is not supported for this resource", r.Method)
 	app.errorResponse(w, r, http.StatusMethodNotAllowed, message)
 }
 
