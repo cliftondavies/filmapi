@@ -17,17 +17,17 @@ const (
 
 type Token struct {
 	Plaintext string
-	Hash []byte
-	UserID int64
-	Expiry time.Time
-	Scope string
+	Hash      []byte
+	UserID    int64
+	Expiry    time.Time
+	Scope     string
 }
 
 func generateToken(userID int64, ttl time.Duration, scope string) (*Token, error) {
 	token := &Token{
 		UserID: userID,
 		Expiry: time.Now().Add(ttl),
-		Scope: scope,
+		Scope:  scope,
 	}
 
 	randomBytes := make([]byte, 16)
@@ -89,4 +89,3 @@ func (m TokenModel) DeleteAllForUser(scope string, userID int64) error {
 	_, err := m.DB.ExecContext(ctx, query, scope, userID)
 	return err
 }
-	
