@@ -19,3 +19,9 @@
 
 # Go workspace file
 go.work
+
+# Environment variables
+.envrc
+
+# Go binaries
+bin/

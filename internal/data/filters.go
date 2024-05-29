@@ -8,9 +8,9 @@ import (
 )
 
 type Filters struct {
-	Page int
-	PageSize int
-	Sort string
+	Page         int
+	PageSize     int
+	Sort         string
 	SortSafelist []string
 }
 
@@ -28,7 +28,7 @@ func (f Filters) sortDirection() string {
 	if strings.HasPrefix(f.Sort, "-") {
 		return "DESC"
 	}
-	
+
 	return "ASC"
 }
 
@@ -49,10 +49,10 @@ func ValidateFilters(v *validator.Validator, f Filters) {
 }
 
 type Metadata struct {
-	CurrentPage int `json:"current_page,omitempty"`
-	PageSize int `json:"page_size,omitempty"`
-	FirstPage int `json:"first_page,omitempty"`
-	LastPage int `json:"last_page,omitempty"`
+	CurrentPage  int `json:"current_page,omitempty"`
+	PageSize     int `json:"page_size,omitempty"`
+	FirstPage    int `json:"first_page,omitempty"`
+	LastPage     int `json:"last_page,omitempty"`
 	TotalRecords int `json:"total_records,omitempty"`
 }
 
@@ -61,11 +61,10 @@ func calculateMetadata(totalRecords, page, pageSize int) Metadata {
 		return Metadata{}
 	}
 	return Metadata{
-		CurrentPage: page,
-		PageSize: pageSize,
-		FirstPage: 1,
-		LastPage: int(math.Ceil(float64(totalRecords) / float64(pageSize))),
+		CurrentPage:  page,
+		PageSize:     pageSize,
+		FirstPage:    1,
+		LastPage:     int(math.Ceil(float64(totalRecords) / float64(pageSize))),
 		TotalRecords: totalRecords,
 	}
 }
-	

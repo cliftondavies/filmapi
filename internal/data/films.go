@@ -13,13 +13,13 @@ import (
 )
 
 type Film struct {
-	ID int64 `json:"id"`
+	ID        int64     `json:"id"`
 	CreatedAt time.Time `json:"-"`
-	Title string `json:"title"`
-	Year int32 `json:"year,omitempty"`
-	Runtime Runtime `json:"runtime,omitempty"`
-	Genres []string `json:"genres,omitempty"`
-	Version int32 `json:"version"`
+	Title     string    `json:"title"`
+	Year      int32     `json:"year,omitempty"`
+	Runtime   Runtime   `json:"runtime,omitempty"`
+	Genres    []string  `json:"genres,omitempty"`
+	Version   int32     `json:"version"`
 }
 
 func ValidateFilm(v *validator.Validator, film *Film) {
@@ -137,7 +137,7 @@ func (f FilmModel) Delete(id int64) error {
 
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
-	
+
 	result, err := f.DB.ExecContext(ctx, query, id)
 	if err != nil {
 		return err
@@ -151,7 +151,7 @@ func (f FilmModel) Delete(id int64) error {
 	if rowsAffected == 0 {
 		return ErrRecordNotFound
 	}
-	
+
 	return nil
 }
 

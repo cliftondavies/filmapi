@@ -138,8 +138,8 @@ func (app *application) runBackgroundTask(task func()) {
 
 	go func() {
 		defer app.wg.Done()
-		
-		defer func () {
+
+		defer func() {
 			if err := recover(); err != nil {
 				app.logger.PrintError(fmt.Errorf("%s", err), nil)
 			}
